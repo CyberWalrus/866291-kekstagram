@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Andrey Pahomov](https://up.htmlacademy.ru/javascript/15/user/866291).
-* Наставник: `Неизвестно`.
+* Наставник: [Андрей Рыжаков](https://up.htmlacademy.ru/javascript/15/user/201015).
 
 ---
 
