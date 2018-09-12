@@ -9,6 +9,8 @@ var bigPictureSocialCaption = bigPicture.querySelector('.social__caption');
 var commentContainer = bigPicture.querySelector('.social__comments');
 var pictureDIV = document.querySelector('.pictures');
 var templatePicture = document.querySelector('#picture').content.querySelector('a');
+var newCommentImgWidth = 35;
+var newCommentImgHeight = 35;
 var defaultComments = ['Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -78,8 +80,8 @@ var createCommentDOM = function (textContent) {
   newCommentImg.classList.add('social__picture');
   newCommentImg.src = 'img/avatar-' + generateRandomNumber(6, 1) + '.svg';
   newCommentImg.alt = 'Аватар комментатора фотографии';
-  newCommentImg.width = 35;
-  newCommentImg.height = 35;
+  newCommentImg.width = newCommentImgWidth;
+  newCommentImg.height = newCommentImgHeight;
   newCommentP.classList.add('social__text');
   newCommentP.textContent = textContent;
   newComment.appendChild(newCommentImg);
