@@ -1,14 +1,5 @@
 'use strict';
-var bigPicture = document.querySelector('.big-picture');
-var bigPictureSocial = bigPicture.querySelector('.social__comment-count');
-var bigPictureCommentsLoader = bigPicture.querySelector('.comments-loader');
-var bigPictureImg = bigPicture.querySelector('img');
-var bigPictureLikesCount = bigPicture.querySelector('.likes-count');
-var bigPictureCommentsCount = bigPicture.querySelector('.comments-count');
-var bigPictureSocialCaption = bigPicture.querySelector('.social__caption');
-var commentContainer = bigPicture.querySelector('.social__comments');
-var pictureDIV = document.querySelector('.pictures');
-var templatePicture = document.querySelector('#picture').content.querySelector('a');
+var ESC_KEYCODE = 27;
 var newCommentImgWidth = 35;
 var newCommentImgHeight = 35;
 var defaultComments = ['Всё отлично!',
@@ -23,6 +14,21 @@ var defaultDescription = ['Тестим новую камеру!',
   'Отдыхаем...',
   'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......',
   'Вот это тачка!'];
+
+var bigPicture = document.querySelector('.big-picture');
+var bigPictureSocial = bigPicture.querySelector('.social__comment-count');
+var bigPictureCommentsLoader = bigPicture.querySelector('.comments-loader');
+var bigPictureImg = bigPicture.querySelector('img');
+var bigPictureLikesCount = bigPicture.querySelector('.likes-count');
+var bigPictureCommentsCount = bigPicture.querySelector('.comments-count');
+var bigPictureSocialCaption = bigPicture.querySelector('.social__caption');
+var commentContainer = bigPicture.querySelector('.social__comments');
+var pictureDIV = document.querySelector('.pictures');
+var templatePicture = document.querySelector('#picture').content.querySelector('a');
+var uploadFile = document.querySelector('#upload-file');
+var imgUploadOverlay = document.querySelector('.img-upload__overlay');
+var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
+var effectLevelPin = imgUploadOverlay.querySelector('effect-level__pin');
 
 var generateRandomNumber = function (max, min) {
   return Math.floor(Math.random() * (max + 1 - min)) + min;
@@ -65,6 +71,9 @@ var createPhotoDOM = function (photosArray) {
   var picturesElements = document.createDocumentFragment();
   for (var i = 0; i < photosArray.length; i++) {
     var element = templatePicture.cloneNode(true);
+    element.addEventListener('click', function () {
+      bigPicture.classList.remove('hidden');
+    })
     element.querySelector('img').src = photosArray[i]['url'];
     element.querySelector('.picture__likes').textContent = photosArray[i]['likes'];
     element.querySelector('.picture__comments').textContent = photosArray[i]['comments'].length;
@@ -103,6 +112,20 @@ var changeBigPicture = function (photosArray) {
     commentContainer.appendChild(newComment);
   }
 };
+uploadFile.addEventListener('change', function () {
+  imgUploadOverlay.classList.remove('hidden');
+});
+imgUploadCancel.addEventListener('click', function () {
+  imgUploadOverlay.classList.add('hidden');
+});
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    imgUploadOverlay.classList.add('hidden');
+  }
+});
+//effectLevelPin.addEventListener('mouseup', function () {
+
+//})
 var photosArray = generatePhotosArray();
 createPhotoDOM(photosArray);
-changeBigPicture(photosArray);
+
