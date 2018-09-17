@@ -31,11 +31,11 @@ var uploadFile = document.querySelector('#upload-file');
 var imgUploadOverlay = document.querySelector('.img-upload__overlay');
 var imgUploadCancel = imgUploadOverlay.querySelector('.img-upload__cancel');
 var imgUploadEffectLevel = imgUploadOverlay.querySelector('.img-upload__effect-level');
+var imgUploadPreview = imgUploadOverlay.querySelector('.img-upload__preview');
 var effectLevelPin = imgUploadOverlay.querySelector('.effect-level__pin');
 var effectLevelDepth = imgUploadOverlay.querySelector('.effect-level__depth');
-var effectLevelLine = document.querySelector('.effect-level__line');
-var effectLevelValue = imgUploadOverlay.querySelector('.effect-level__value');
-var imgUploadPreview = imgUploadOverlay.querySelector('.img-upload__preview');
+var effectLevelLine = imgUploadOverlay.querySelector('.effect-level__line');
+var effectLevelValue = imgUploadOverlay.querySelector('input[name=effect-level]');
 var maxEffectLevelPin = effectLevelLine.clientWidth;
 
 var effectPhoto = [{
@@ -74,16 +74,18 @@ var generateRandomNumber = function (max, min) {
   return Math.floor(Math.random() * (max + 1 - min)) + min;
 };
 var addNewEffectClassImg = function (text) {
-  imgUploadPreview.className = 'img-upload__preview';
-  imgUploadPreview.classList.add('effects__preview--' + text);
-  imgUploadPreview.style.filter = '';
-  effectLevelPin.style.left = maxEffectLevelPin + 'px';
-  effectLevelDepth.style.width = maxEffectLevelPin + 'px';
   if (text === 'none') {
     imgUploadEffectLevel.classList.add('hidden');
   } else {
     imgUploadEffectLevel.classList.remove('hidden');
+    maxEffectLevelPin = effectLevelLine.clientWidth;
+    effectLevelPin.style.left = maxEffectLevelPin + 'px';
+    effectLevelDepth.style.width = maxEffectLevelPin + 'px';
   }
+  imgUploadPreview.className = 'img-upload__preview';
+  imgUploadPreview.classList.add('effects__preview--' + text);
+  imgUploadPreview.style.filter = '';
+  effectLevelValue.value = 100;
   typeEffect = text;
 };
 var generateComments = function () {
@@ -224,9 +226,10 @@ var takeEffectFilter = function (type, precentEffect) {
 };
 uploadFile.addEventListener('change', function () {
   imgUploadOverlay.classList.remove('hidden');
-  maxEffectLevelPin = effectLevelLine.clientWidth;
+  addNewEffectClassImg('none');
   effectLevelPin.addEventListener('mousedown', function (a) {
     var xShift = a.clientX - effectLevelPin.offsetLeft;
+    maxEffectLevelPin = effectLevelLine.clientWidth;
     var onEffectPinMouseMove = function (e) {
       var current = e.clientX - xShift;
       if (current < 0) {
@@ -239,6 +242,7 @@ uploadFile.addEventListener('change', function () {
       var precentEffect = current / maxEffectLevelPin;
       var filterEffect = takeEffectFilter(typeEffect, precentEffect);
       imgUploadPreview.style.filter = filterEffect;
+      effectLevelValue.value = Math.round(100 * precentEffect);
     };
     document.addEventListener('mousemove', onEffectPinMouseMove);
     document.addEventListener('mouseup', function () {
