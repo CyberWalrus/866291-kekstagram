@@ -4,8 +4,6 @@
   var newCommentImgWidth = 35;
   var newCommentImgHeight = 35;
 
-  var pictureDIV = document.querySelector('.pictures');
-  var templatePicture = document.querySelector('#picture').content.querySelector('a');
   var bigPicture = document.querySelector('.big-picture');
   var bigPictureSocial = bigPicture.querySelector('.social__comment-count');
   var bigPictureCommentsLoader = bigPicture.querySelector('.comments-loader');
@@ -64,19 +62,6 @@
     document.addEventListener('keydown', onCloseBigPictureKeydown);
     bigPictureCancel.addEventListener('click', onCloseBigPictureClick);
   };
-  var createPhotoDOM = function (photosArray) {
-    var picturesElements = document.createDocumentFragment();
-    for (var i = 0; i < photosArray.length; i++) {
-      var element = templatePicture.cloneNode(true);
-      element.addEventListener('click');
-      element.querySelector('img').src = photosArray[i]['url'];
-      element.querySelector('.picture__likes').textContent = photosArray[i]['likes'];
-      element.querySelector('.picture__comments').textContent = photosArray[i]['comments'].length;
-      picturesElements.appendChild(element);
-    }
-    pictureDIV.appendChild(picturesElements);
-  };
-  createPhotoDOM(window.data.photosArr);
   window.bigPicture = {
     onPictureClick: onPictureClick,
     changeBigPicture: changeBigPicture
