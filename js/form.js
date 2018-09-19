@@ -79,6 +79,7 @@
   };
 
   var updateSliderVision = function () {
+    imgUploadPreview.style.filter = '';
     if (currentFilter !== 'none') {
       imgUploadEffectLevel.classList.remove('hidden');
       effectLevelPin.style.left = MAX_LEFT + '%';
