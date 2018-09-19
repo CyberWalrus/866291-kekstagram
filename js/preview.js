@@ -13,7 +13,7 @@
     imgUploadOverlay.classList.add('hidden');
     document.removeEventListener('keydown', onCloseUploadFileKeydown);
     imgUploadCancel.removeEventListener('click', onCloseUploadFileClick);
-    window.form.removePhotoEvents();
+    window.form.removeEvents();
     uploadFile.addEventListener('change', onUploadFileChange);
   };
 
@@ -23,7 +23,7 @@
     imgUploadOverlay.classList.remove('hidden');
     document.addEventListener('keydown', onCloseUploadFileKeydown);
     imgUploadCancel.addEventListener('click', onCloseUploadFileClick);
-    window.form.changePhotoEvents();
+    window.form.addEvents();
     uploadFile.removeEventListener('change', onUploadFileChange);
   };
 

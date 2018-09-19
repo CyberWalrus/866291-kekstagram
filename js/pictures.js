@@ -20,5 +20,6 @@
     });
     pictureDIV.appendChild(picturesElements);
   };
+
   createPhotoDOM(window.data.photosArr);
 })();

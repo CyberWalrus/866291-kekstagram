@@ -4,6 +4,7 @@
   var ESC_KEYCODE = 27;
   var newCommentImgWidth = 35;
   var newCommentImgHeight = 35;
+
   var defaultComments = ['Всё отлично!',
     'В целом всё неплохо. Но не всё.',
     'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -16,9 +17,11 @@
     'Отдыхаем...',
     'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......',
     'Вот это тачка!'];
+
   var generateRandomNumber = function (max, min) {
     return Math.floor(Math.random() * (max + 1 - min)) + min;
   };
+
   var generateComments = function () {
     var comments = [];
     var quantityComments = generateRandomNumber(20, 0);
@@ -35,11 +38,13 @@
     }
     return comments;
   };
+
   var generateDescription = function () {
     var numberDescription = generateRandomNumber(defaultDescription.length - 1, 0);
     var description = defaultDescription[numberDescription];
     return description;
   };
+
   var generatePhotosArray = function () {
     var photosArray = [];
     for (var i = 1; i <= 25; i++) {
@@ -52,7 +57,9 @@
     }
     return photosArray;
   };
+
   var photosArr = generatePhotosArray();
+
   window.data = {
     ESC_KEYCODE: ESC_KEYCODE,
     newCommentImgWidth: newCommentImgWidth,
