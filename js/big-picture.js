@@ -31,39 +31,34 @@
     return newComment;
   };
 
-  var changeBigPicture = function (photosArray) {
-    var quantityComments = photosArray[0]['comments'].length;
+  var openBigPicture = function (photo) {
     bigPicture.classList.remove('hidden');
     bigPictureSocial.classList.add('visually-hidden');
     bigPictureCommentsLoader.classList.add('visually-hidden');
-    bigPictureImg.src = photosArray[0]['url'];
-    bigPictureLikesCount.textContent = photosArray[0]['likes'];
-    bigPictureCommentsCount.textContent = photosArray[0]['comments'].length;
-    bigPictureSocialCaption.textContent = photosArray[0]['description'];
-    for (var i = 0; i < quantityComments; i++) {
-      var textContent = photosArray[0]['comments'][i];
-      var newComment = createCommentDOM(textContent);
+    bigPictureImg.src = photo['url'];
+    bigPictureLikesCount.textContent = photo['likes'];
+    bigPictureCommentsCount.textContent = photo['comments'].length;
+    bigPictureSocialCaption.textContent = photo['description'];
+    photo['comments'].forEach(function (item) {
+      var newComment = createCommentDOM(item);
       commentContainer.appendChild(newComment);
-    }
-  };
-  var onCloseBigPictureKeydown = function (evt) {
-    window.data.isEscEvent(evt, onCloseBigPictureClick);
-  };
-  var onCloseBigPictureClick = function () {
-    bigPicture.classList.add('hidden');
-    removeBigPictureEvent();
-  };
-  var removeBigPictureEvent = function () {
-    document.removeEventListener('keydown', onCloseBigPictureKeydown);
-    bigPictureCancel.removeEventListener('click', onCloseBigPictureClick);
-  };
-  var onPictureClick = function () {
+    });
     bigPicture.classList.remove('hidden');
     document.addEventListener('keydown', onCloseBigPictureKeydown);
     bigPictureCancel.addEventListener('click', onCloseBigPictureClick);
   };
+
+  var onCloseBigPictureKeydown = function (evt) {
+    window.data.isEscEvent(evt, onCloseBigPictureClick);
+  };
+
+  var onCloseBigPictureClick = function () {
+    bigPicture.classList.add('hidden');
+    document.removeEventListener('keydown', onCloseBigPictureKeydown);
+    bigPictureCancel.removeEventListener('click', onCloseBigPictureClick);
+  };
+
   window.bigPicture = {
-    onPictureClick: onPictureClick,
-    changeBigPicture: changeBigPicture
+    show: openBigPicture
   };
 })();

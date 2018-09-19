@@ -8,21 +8,25 @@
   var onCloseUploadFileKeydown = function (evt) {
     window.data.isEscEvent(evt, onCloseUploadFileClick);
   };
+
   var onCloseUploadFileClick = function () {
     imgUploadOverlay.classList.add('hidden');
-    removeUploadFileEvent();
-  };
-  var removeUploadFileEvent = function () {
     document.removeEventListener('keydown', onCloseUploadFileKeydown);
     imgUploadCancel.removeEventListener('click', onCloseUploadFileClick);
     window.form.removePhotoEvents();
+    uploadFile.addEventListener('change', onUploadFileChange);
   };
-  var onUploadFileChange = function () {
+
+  var onUploadFileChange = function (event) {
+    event.preventDefault();
+    uploadFile.blur();
     imgUploadOverlay.classList.remove('hidden');
     document.addEventListener('keydown', onCloseUploadFileKeydown);
     imgUploadCancel.addEventListener('click', onCloseUploadFileClick);
     window.form.changePhotoEvents();
+    uploadFile.removeEventListener('change', onUploadFileChange);
   };
+
   uploadFile.addEventListener('change', onUploadFileChange);
 
   window.preview = {
