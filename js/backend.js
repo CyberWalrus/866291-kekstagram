@@ -2,6 +2,7 @@
 
 (function () {
   var URL = 'https://js.dump.academy/kekstagram/data';
+  var URL_POST = 'https://js.dump.academy/kekstagram';
   var xhr = new XMLHttpRequest();
 
   window.load = function (onLoad, onError) {
@@ -46,8 +47,10 @@
 
     xhr.timeout = 10000; // 10s
 
-    xhr.open('POST', URL);
-    xhr.send();
+    xhr.open('POST', URL_POST, true);
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+
+    xhr.send(data);
   };
 
 })();
