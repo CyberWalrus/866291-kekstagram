@@ -3,9 +3,9 @@
 (function () {
   var URL = 'https://js.dump.academy/kekstagram/data';
   var URL_POST = 'https://js.dump.academy/kekstagram';
-  var xhr = new XMLHttpRequest();
 
-  window.load = function (onLoad, onError) {
+  var load = function (onLoad, onError) {
+    var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
@@ -28,8 +28,8 @@
     xhr.send();
   };
 
-  window.send = function (data, onLoad, onError) {
-    xhr.responseType = 'json';
+  var sendData = function (data, onLoad, onError) {
+    var xhr = new XMLHttpRequest();
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
@@ -47,10 +47,14 @@
 
     xhr.timeout = 10000; // 10s
 
-    xhr.open('POST', URL_POST, true);
-    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    xhr.open('POST', URL_POST);
 
     xhr.send(data);
+  };
+
+  window.backend = {
+    load: load,
+    send: sendData
   };
 
 })();

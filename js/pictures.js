@@ -4,8 +4,6 @@
 
   var pictureDIV = document.querySelector('.pictures');
   var templatePicture = document.querySelector('#picture').content.querySelector('a');
-  var body = document.querySelector('body');
-  var templateError = document.querySelector('#error').content.querySelector('section');
 
   var createPhotoDOM = function (photosArray) {
     var picturesElements = document.createDocumentFragment();
@@ -24,13 +22,8 @@
     pictureDIV.appendChild(picturesElements);
   };
 
-  var onError = function (message) {
-    var errorElements = document.createDocumentFragment();
-    var errorElement = templateError.cloneNode(true);
-    errorElement.querySelector('.error__title').textContent = message;
-    errorElements.appendChild(errorElement);
-    body.appendChild(errorElements);
+  var onError = function () {
   };
-  window.load(createPhotoDOM, onError);
+  window.backend.load(createPhotoDOM, onError);
 
 })();
