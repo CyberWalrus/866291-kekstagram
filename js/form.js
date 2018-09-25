@@ -13,6 +13,9 @@
   var effectLevelLine = imgUploadOverlay.querySelector('.effect-level__line');
   var effectLevelValue = imgUploadOverlay.querySelector('input[name=effect-level]');
   var inputHashtags = imgUploadOverlay.querySelector('input[name=hashtags]');
+  var inputScale = imgUploadOverlay.querySelector('input[name=scale]');
+  var inputEffect = imgUploadOverlay.querySelector('#effect-none');
+  var inputDescription = imgUploadOverlay.querySelector('textarea[name=description]');
   var maxEffectLevelPin = effectLevelLine.clientWidth;
 
   var effectObj = {
@@ -43,9 +46,17 @@
     }
   };
 
-  function cangeEfectValue(min, max, num) {
+  var cangeEfectValue = function (min, max, num) {
     return min + (max - min) * (num / 100);
-  }
+  };
+
+  var updateValues = function () {
+    effectLevelValue.value = '100';
+    inputHashtags.value = '';
+    inputScale.value = '55%';
+    inputEffect.checked = true;
+    inputDescription.value = '';
+  };
 
   var onMouseDownPin = function (a) {
     var xShift = a.clientX - effectLevelPin.offsetLeft;
@@ -78,7 +89,11 @@
     }
   };
 
-  var updateSliderVision = function () {
+  var updateSliderVision = function (effect) {
+    effectLevelValue.value = '100';
+    imgUploadPreview.classList.remove('effects__preview--' + currentFilter);
+    imgUploadPreview.classList.add('effects__preview--' + effect);
+    currentFilter = effect;
     imgUploadPreview.style.filter = '';
     if (currentFilter !== 'none') {
       imgUploadEffectLevel.classList.remove('hidden');
@@ -96,10 +111,7 @@
     var target = event.target;
     if (target.name === 'effect' && target.type === 'radio') {
       var effect = target.value;
-      imgUploadPreview.classList.remove('effects__preview--' + currentFilter);
-      imgUploadPreview.classList.add('effects__preview--' + effect);
-      currentFilter = effect;
-      updateSliderVision();
+      updateSliderVision(effect);
     }
   };
 
@@ -150,8 +162,8 @@
   };
 
   var addEvents = function () {
-    currentFilter = 'none';
-    updateSliderVision();
+    updateValues();
+    updateSliderVision('none');
     uploadForm.addEventListener('change', onUploadFormChange);
     effectLevelPin.addEventListener('mousedown', onMouseDownPin);
     inputHashtags.addEventListener('input', onInputHashtagsInput);
@@ -161,6 +173,7 @@
 
   window.form = {
     removeEvents: removeEvents,
-    addEvents: addEvents
+    addEvents: addEvents,
+    updateValues: updateValues
   };
 })();

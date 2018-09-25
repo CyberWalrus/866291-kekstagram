@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+
   var pictureDIV = document.querySelector('.pictures');
   var templatePicture = document.querySelector('#picture').content.querySelector('a');
 
@@ -21,5 +22,8 @@
     pictureDIV.appendChild(picturesElements);
   };
 
-  createPhotoDOM(window.data.photosArr);
+  var onError = function () {
+  };
+  window.backend.load(createPhotoDOM, onError);
+
 })();
