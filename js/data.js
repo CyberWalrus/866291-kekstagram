@@ -3,6 +3,7 @@
 (function () {
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
+  var DEBOUNCE_INTERVAL = 300; // ms
   var newCommentImgWidth = 35;
   var newCommentImgHeight = 35;
 
@@ -18,6 +19,21 @@
     'Отдыхаем...',
     'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......',
     'Вот это тачка!'];
+
+  var debounce = function (fun) {
+    var lastTimeout = null;
+
+    return function () {
+      var args = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        fun.apply(null, args);
+      }, DEBOUNCE_INTERVAL);
+    };
+  };
+
 
   var generateRandomNumber = function (max, min) {
     return Math.floor(Math.random() * (max + 1 - min)) + min;
@@ -78,6 +94,7 @@
         action();
       }
     },
-    generateRandomNumber: generateRandomNumber
+    generateRandomNumber: generateRandomNumber,
+    debounce: debounce
   };
 })();
