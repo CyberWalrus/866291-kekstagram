@@ -9,8 +9,11 @@
   var imgFilters = document.querySelector('.img-filters');
 
   var createPhotoDOM = function (photosArr) {
-    while (pictureDIV.firstChild) {
-      pictureDIV.removeChild(pictureDIV.firstChild);
+    var nodeLength = pictureDIV.childNodes.length;
+    for (var index = nodeLength; index > 0; index--) {
+      if (pictureDIV.childNodes[index] && pictureDIV.childNodes[index].classList && pictureDIV.childNodes[index].classList.contains('picture')) {
+        pictureDIV.removeChild(pictureDIV.childNodes[index]);
+      }
     }
     var picturesElements = document.createDocumentFragment();
 
