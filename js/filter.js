@@ -8,6 +8,7 @@
   var buttonDiscussed = imgFilters.querySelector('#filter-discussed');
 
   var updateClassFilters = function (evt) {
+    evt.preventDefault();
     buttonPopular.classList.remove('img-filters__button--active');
     buttonNew.classList.remove('img-filters__button--active');
     buttonDiscussed.classList.remove('img-filters__button--active');
