@@ -28,7 +28,7 @@
     onCloseUploadFileClick();
     window.uploadPicture.onButtonClick();
   };
-  
+
   var addPhotoPreview = function () {
     var file = uploadFile.files[0];
     var fileName = file.name.toLowerCase();
