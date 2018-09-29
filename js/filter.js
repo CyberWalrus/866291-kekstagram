@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var NEW_P
+  var NEW_PICTURE = 10;
   var imgFilters = document.querySelector('.img-filters');
 
   var updateClassFilters = function (evt) {
@@ -23,7 +23,7 @@
       .slice()
       .sort(function () {
         return window.data.generateRandomNumber(1, -1);
-      }).slice(0, 10);
+      }).slice(0, NEW_PICTURE);
     window.pictures.clear();
     window.pictures.create(photoArray);
   });
