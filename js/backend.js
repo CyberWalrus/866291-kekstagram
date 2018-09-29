@@ -10,10 +10,7 @@
   var MESSEGE_TIMEOUT = 'Запрос не успел выполниться за ';
   var MESSEGE_MS = 'мс';
 
-  var load = function (onLoad, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-
+  var loadEenets = function (xhr, onLoad, onError) {
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS_LOAD) {
         onLoad(xhr.response);
@@ -27,6 +24,15 @@
     xhr.addEventListener('timeout', function () {
       onError(MESSEGE_TIMEOUT + xhr.timeout + MESSEGE_MS);
     });
+
+    xhr.timeout = TIMEOUT;
+  };
+
+  var load = function (onLoad, onError) {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+
+    loadEenets(xhr, onLoad, onError);
 
     xhr.timeout = TIMEOUT;
 
@@ -37,21 +43,7 @@
   var sendData = function (data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
 
-    xhr.addEventListener('load', function () {
-      if (xhr.status === STATUS_LOAD) {
-        onLoad(xhr.response);
-      } else {
-        onError(MESSEGE_STATUS + xhr.status + ' ' + xhr.statusText);
-      }
-    });
-    xhr.addEventListener('error', function () {
-      onError(MESSEGE_ERROR);
-    });
-    xhr.addEventListener('timeout', function () {
-      onError(MESSEGE_TIMEOUT + xhr.timeout + MESSEGE_MS);
-    });
-
-    xhr.timeout = TIMEOUT;
+    loadEenets(xhr, onLoad, onError);
 
     xhr.open('POST', URL_POST);
 
