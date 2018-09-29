@@ -65,6 +65,13 @@
   buttonBigger.addEvent();
   var buttonSmaller = new Button(document.querySelector('.scale__control--smaller'), onSmallerClick);
   buttonSmaller.addEvent();
+  window.model = {
+    Button: Button,
+    ImgPreview: ImgPreview,
+    preview: preview,
+    buttonBigger: buttonBigger,
+    buttonSmaller: buttonSmaller
+  };
 
 
 })();

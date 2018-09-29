@@ -1,17 +1,14 @@
 'use strict';
 
 (function () {
-
+  var NEW_P
   var imgFilters = document.querySelector('.img-filters');
-  var buttonPopular = imgFilters.querySelector('#filter-popular');
-  var buttonNew = imgFilters.querySelector('#filter-new');
-  var buttonDiscussed = imgFilters.querySelector('#filter-discussed');
 
   var updateClassFilters = function (evt) {
     evt.preventDefault();
-    buttonPopular.classList.remove('img-filters__button--active');
-    buttonNew.classList.remove('img-filters__button--active');
-    buttonDiscussed.classList.remove('img-filters__button--active');
+    buttonPopular.element.classList.remove('img-filters__button--active');
+    buttonNew.element.classList.remove('img-filters__button--active');
+    buttonDiscussed.element.classList.remove('img-filters__button--active');
     evt.target.classList.add('img-filters__button--active');
   };
 
@@ -57,10 +54,14 @@
   };
 
   var addEvents = function () {
-    buttonPopular.addEventListener('click', onPopularClick);
-    buttonNew.addEventListener('click', onNewClick);
-    buttonDiscussed.addEventListener('click', onDiscussedClick);
+    buttonPopular.addEvent();
+    buttonNew.addEvent();
+    buttonDiscussed.addEvent();
   };
+
+  var buttonPopular = new window.model.Button(imgFilters.querySelector('#filter-popular'), onPopularClick);
+  var buttonNew = new window.model.Button(imgFilters.querySelector('#filter-new'), onNewClick);
+  var buttonDiscussed = new window.model.Button(imgFilters.querySelector('#filter-discussed'), onDiscussedClick);
 
   window.filter = {
     addEvents: addEvents
