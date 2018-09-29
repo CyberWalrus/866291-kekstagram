@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var imgUploadOverlay = document.querySelector('.img-upload__overlay');
-
   var Button = function (element, eventFun) {
     this.element = element;
     this.eventFun = eventFun;
@@ -54,23 +52,9 @@
     }
   };
 
-  var preview = new ImgPreview(imgUploadOverlay.querySelector('img'), imgUploadOverlay.querySelector('.scale__control--value'), 25, 100, 25);
-  var onBiggerClick = function () {
-    preview.incrScale();
-  };
-  var onSmallerClick = function () {
-    preview.discScale();
-  };
-  var buttonBigger = new Button(document.querySelector('.scale__control--bigger'), onBiggerClick);
-  buttonBigger.addEvent();
-  var buttonSmaller = new Button(document.querySelector('.scale__control--smaller'), onSmallerClick);
-  buttonSmaller.addEvent();
   window.model = {
     Button: Button,
-    ImgPreview: ImgPreview,
-    preview: preview,
-    buttonBigger: buttonBigger,
-    buttonSmaller: buttonSmaller
+    ImgPreview: ImgPreview
   };
 
 

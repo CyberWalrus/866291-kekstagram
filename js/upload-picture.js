@@ -13,6 +13,7 @@
   var addElemnt = function (template, message, addFunction) {
     var element = template.cloneNode(true);
     var elementButton = element.querySelector('button');
+
     if (message !== undefined) {
       element.querySelector('h2').textContent = message;
     }
