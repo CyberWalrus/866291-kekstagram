@@ -8,7 +8,9 @@
 
   Button.prototype = {
     onEnterElement: function (evt) {
-      window.data.isEnterEvent(evt, this.eventFun);
+      if (evt.keyCode === window.data.ENTER_KEYCODE) {
+        this.eventFun(evt);
+      }
     },
     addEvent: function () {
       this.element.addEventListener('click', this.eventFun);
@@ -22,6 +24,7 @@
 
   var ImgPreview = function (element, elementScale, step, max, min) {
     this.element = element;
+    this.img = element.querySelector('img');
     this.elementScale = elementScale;
     this.value = parseInt(elementScale.value, 10);
     this.step = step;
@@ -42,13 +45,25 @@
         this.value = this.min;
       }
       this.elementScale.value = this.value + '%';
-      this.element.style.transform = 'scale(' + this.value / 100 + ')';
+      this.img.style.transform = 'scale(' + this.value / 100 + ')';
     },
     incrScale: function () {
       this.changeScale(true);
     },
     discScale: function () {
       this.changeScale(false);
+    },
+    setSrc: function (value) {
+      this.img.src = value;
+    },
+    setFilter: function (value) {
+      this.element.style.filter = value;
+    },
+    addClass: function (value) {
+      this.element.classList.add(value);
+    },
+    removeClass: function (value) {
+      this.element.classList.remove(value);
     }
   };
 

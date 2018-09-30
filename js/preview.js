@@ -47,7 +47,7 @@
       var reader = new FileReader();
 
       var onLoadFile = function () {
-        preview.element.src = reader.result;
+        preview.setSrc(reader.result);
         imgFilters.forEach(function (item) {
           item.style.backgroundImage = 'url(' + reader.result + ')';
         });
@@ -74,7 +74,7 @@
     uploadFile.removeEventListener('change', onUploadFileChange);
   };
 
-  var preview = new window.model.ImgPreview(imgUploadOverlay.querySelector('img'), imgUploadOverlay.querySelector('.scale__control--value'), 25, 100, 25);
+  var preview = new window.model.ImgPreview(imgUploadOverlay.querySelector('.img-upload__preview'), imgUploadOverlay.querySelector('input[name=scale]'), 25, 100, 25);
   var buttonBigger = new window.model.Button(document.querySelector('.scale__control--bigger'), onBiggerClick);
   var buttonSmaller = new window.model.Button(document.querySelector('.scale__control--smaller'), onSmallerClick);
   var buttonCancel = new window.model.Button(document.querySelector('.img-upload__cancel'), onCloseUploadFileClick);
@@ -84,6 +84,7 @@
 
   window.preview = {
     onCloseUploadFileKeydown: onCloseUploadFileKeydown,
-    onUploadFileChange: onUploadFileChange
+    onUploadFileChange: onUploadFileChange,
+    preview: preview
   };
 })();

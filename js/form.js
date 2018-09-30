@@ -7,7 +7,6 @@
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
   var uploadForm = document.querySelector('.img-upload__form');
   var imgUploadEffectLevel = imgUploadOverlay.querySelector('.img-upload__effect-level');
-  var imgUploadPreview = imgUploadOverlay.querySelector('.img-upload__preview');
   var effectLevelPin = imgUploadOverlay.querySelector('.effect-level__pin');
   var effectLevelDepth = imgUploadOverlay.querySelector('.effect-level__depth');
   var effectLevelLine = imgUploadOverlay.querySelector('.effect-level__line');
@@ -22,26 +21,31 @@
     chrome: {
       min: 0,
       max: 1,
+      type: '',
       efect: 'grayscale'
     },
     sepia: {
       min: 0,
       max: 1,
+      type: '',
       efect: 'sepia'
     },
     marvin: {
       min: 0,
       max: 100,
+      type: '%',
       efect: 'invert'
     },
     phobos: {
       min: 0,
       max: 3,
+      type: 'px',
       efect: 'blur'
     },
     heat: {
       min: 1,
       max: 3,
+      type: '',
       efect: 'brightness'
     }
   };
@@ -53,7 +57,7 @@
   var updateValues = function () {
     effectLevelValue.value = '100';
     inputHashtags.value = '';
-    inputScale.value = '55%';
+    inputScale.value = '100%';
     inputEffect.checked = true;
     inputDescription.value = '';
   };
@@ -83,18 +87,18 @@
   var updateStyleFilter = function () {
     if (currentFilter !== 'none') {
       var filterValue = cangeEfectValue(effectObj[currentFilter].min, effectObj[currentFilter].max, parseInt(effectLevelPin.style.left, 10));
-      imgUploadPreview.style.filter = effectObj[currentFilter].efect + '(' + filterValue + ')';
+      window.preview.preview.setFilter(effectObj[currentFilter].efect + '(' + filterValue + effectObj[currentFilter].type + ')');
     } else {
-      imgUploadPreview.style.filter = '';
+      window.preview.preview.setFilter('');
     }
   };
 
   var updateSliderVision = function (effect) {
     effectLevelValue.value = '100';
-    imgUploadPreview.classList.remove('effects__preview--' + currentFilter);
-    imgUploadPreview.classList.add('effects__preview--' + effect);
+    window.preview.preview.removeClass('effects__preview--' + currentFilter);
+    window.preview.preview.addClass('effects__preview--' + effect);
     currentFilter = effect;
-    imgUploadPreview.style.filter = '';
+    window.preview.preview.setFilter('');
     if (currentFilter !== 'none') {
       imgUploadEffectLevel.classList.remove('hidden');
       effectLevelPin.style.left = MAX_LEFT + '%';
