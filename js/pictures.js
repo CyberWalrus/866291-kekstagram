@@ -37,6 +37,7 @@
 
   var onError = function () {
   };
+
   var onLoad = function (photosArr) {
     window.pictures.array = photosArr.slice();
     imgFilters.classList.remove('img-filters--inactive');

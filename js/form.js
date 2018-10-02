@@ -11,10 +11,8 @@
   var effectLevelDepth = imgUploadOverlay.querySelector('.effect-level__depth');
   var effectLevelLine = imgUploadOverlay.querySelector('.effect-level__line');
   var effectLevelValue = imgUploadOverlay.querySelector('input[name=effect-level]');
-  var inputHashtags = imgUploadOverlay.querySelector('input[name=hashtags]');
   var inputScale = imgUploadOverlay.querySelector('input[name=scale]');
   var inputEffect = imgUploadOverlay.querySelector('#effect-none');
-  var inputDescription = imgUploadOverlay.querySelector('textarea[name=description]');
   var maxEffectLevelPin = effectLevelLine.clientWidth;
 
   var effectObj = {
@@ -56,10 +54,10 @@
 
   var updateValues = function () {
     effectLevelValue.value = '100';
-    inputHashtags.value = '';
+    inputHashtag.clear();
+    inputDescription.clear();
     inputScale.value = '100%';
     inputEffect.checked = true;
-    inputDescription.value = '';
   };
 
   var onMouseDownPin = function (a) {
@@ -149,20 +147,11 @@
     }
   };
 
-  var onFocusHashtags = function () {
-    document.removeEventListener('keydown', window.preview.onCloseUploadFileKeydown);
-  };
-
-  var onBlurHashtags = function () {
-    document.addEventListener('keydown', window.preview.onCloseUploadFileKeydown);
-  };
-
   var removeEvents = function () {
     uploadForm.removeEventListener('change', onUploadFormChange);
     effectLevelPin.removeEventListener('mousedown', onMouseDownPin);
-    inputHashtags.removeEventListener('input', onInputHashtagsInput);
-    inputHashtags.removeEventListener('focus', onFocusHashtags);
-    inputHashtags.removeEventListener('blur', onBlurHashtags);
+    inputHashtag.removeEvent();
+    inputDescription.removeEvent();
   };
 
   var addEvents = function () {
@@ -170,10 +159,12 @@
     updateSliderVision('none');
     uploadForm.addEventListener('change', onUploadFormChange);
     effectLevelPin.addEventListener('mousedown', onMouseDownPin);
-    inputHashtags.addEventListener('input', onInputHashtagsInput);
-    inputHashtags.addEventListener('focus', onFocusHashtags);
-    inputHashtags.addEventListener('blur', onBlurHashtags);
+    inputHashtag.addEvent();
+    inputDescription.addEvent();
   };
+  var inputHashtag = new window.model.TextInput(imgUploadOverlay.querySelector('input[name=hashtags]'), window.preview.onCloseUploadFileKeydown, onInputHashtagsInput);
+
+  var inputDescription = new window.model.TextInput(imgUploadOverlay.querySelector('textarea[name=description]'), window.preview.onCloseUploadFileKeydown);
 
   window.form = {
     removeEvents: removeEvents,

@@ -67,9 +67,38 @@
     }
   };
 
+  var TextInput = function (element, eventFocus, eventFun) {
+    this.element = element;
+    this.eventFun = eventFun;
+    this.eventFocus = eventFocus;
+  };
+
+  TextInput.prototype = {
+    onFocus: function () {
+      document.removeEventListener('keydown', this.eventFocus);
+    },
+    onBlur: function () {
+      document.addEventListener('keydown', this.eventFocus);
+    },
+    addEvent: function () {
+      this.element.addEventListener('input', this.eventFun);
+      this.element.addEventListener('focus', this.onFocus);
+      this.element.addEventListener('blur', this.onBlur);
+    },
+    removeEvent: function () {
+      this.element.removeEventListener('input', this.eventFun);
+      this.element.removeEventListener('focus', this.onFocus);
+      this.element.removeEventListener('blur', this.onBlur);
+    },
+    clear: function () {
+      this.element.value = '';
+    }
+  };
+
   window.model = {
     Button: Button,
-    ImgPreview: ImgPreview
+    ImgPreview: ImgPreview,
+    TextInput: TextInput
   };
 
 
