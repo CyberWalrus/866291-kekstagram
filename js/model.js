@@ -82,13 +82,13 @@
     },
     addEvent: function () {
       this.element.addEventListener('input', this.eventFun);
-      this.element.addEventListener('focus', this.onFocus);
-      this.element.addEventListener('blur', this.onBlur);
+      this.element.addEventListener('focus', {handleEvent: this.onFocus, eventFocus: this.eventFocus});
+      this.element.addEventListener('blur', {handleEvent: this.onBlur, eventFocus: this.eventFocus});
     },
     removeEvent: function () {
       this.element.removeEventListener('input', this.eventFun);
-      this.element.removeEventListener('focus', this.onFocus);
-      this.element.removeEventListener('blur', this.onBlur);
+      this.element.removeEventListener('focus', {handleEvent: this.onFocus, eventFocus: this.eventFocus});
+      this.element.removeEventListener('blur', {handleEvent: this.onBlur, eventFocus: this.eventFocus});
     },
     clear: function () {
       this.element.value = '';

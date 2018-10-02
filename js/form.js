@@ -123,28 +123,25 @@
     var hashtagsArr = hashtags.split(' ');
     if (hashtagsArr.length <= 5) {
       target.setCustomValidity('');
-      for (var i = 0; i < hashtagsArr.length; i++) {
-        var numberСoincidences = 0;
-        for (var e = 0; e < hashtagsArr.length; e++) {
-          if (hashtagsArr[i] === hashtagsArr[e]) {
-            numberСoincidences++;
-          }
-        }
-        if (hashtagsArr[i][0] !== '#') {
+      hashtagsArr.forEach(function (item, index) {
+        if (item[0] !== '#') {
           target.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
-        } else if (hashtagsArr[i].length <= 1) {
+        } else if (item.length <= 1) {
           target.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
-        } else if (hashtagsArr[i].length > 20) {
+        } else if (item.length > 20) {
           target.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
-        } else if (numberСoincidences > 1) {
+        } else if (hashtagsArr.some(function (itemAlt, indexAlt) {
+          return item === itemAlt && index !== indexAlt;
+        })) {
           target.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
         } else {
           target.setCustomValidity('');
         }
-      }
+      });
     } else {
       target.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
     }
+
   };
 
   var removeEvents = function () {
@@ -162,8 +159,8 @@
     inputHashtag.addEvent();
     inputDescription.addEvent();
   };
-  var inputHashtag = new window.model.TextInput(imgUploadOverlay.querySelector('input[name=hashtags]'), window.preview.onCloseUploadFileKeydown, onInputHashtagsInput);
 
+  var inputHashtag = new window.model.TextInput(imgUploadOverlay.querySelector('input[name=hashtags]'), window.preview.onCloseUploadFileKeydown, onInputHashtagsInput);
   var inputDescription = new window.model.TextInput(imgUploadOverlay.querySelector('textarea[name=description]'), window.preview.onCloseUploadFileKeydown);
 
   window.form = {
