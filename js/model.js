@@ -64,6 +64,11 @@
     },
     removeClass: function (value) {
       this.element.classList.remove(value);
+    },
+    clear: function () {
+      this.value = this.max;
+      this.elementScale.value = this.value + '%';
+      this.img.style.transform = '';
     }
   };
 

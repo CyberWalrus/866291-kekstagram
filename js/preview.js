@@ -19,6 +19,7 @@
   };
 
   var onCloseUploadFileClick = function () {
+    event.preventDefault();
     imgUploadOverlay.classList.add('hidden');
     document.removeEventListener('keydown', onCloseUploadFileKeydown);
     buttonCancel.removeEvent();
@@ -85,6 +86,7 @@
   window.preview = {
     onCloseUploadFileKeydown: onCloseUploadFileKeydown,
     onUploadFileChange: onUploadFileChange,
-    preview: preview
+    preview: preview,
+    uploadFile: uploadFile
   };
 })();

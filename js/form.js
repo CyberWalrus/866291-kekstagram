@@ -11,7 +11,6 @@
   var effectLevelDepth = imgUploadOverlay.querySelector('.effect-level__depth');
   var effectLevelLine = imgUploadOverlay.querySelector('.effect-level__line');
   var effectLevelValue = imgUploadOverlay.querySelector('input[name=effect-level]');
-  var inputScale = imgUploadOverlay.querySelector('input[name=scale]');
   var inputEffect = imgUploadOverlay.querySelector('#effect-none');
   var maxEffectLevelPin = effectLevelLine.clientWidth;
 
@@ -56,8 +55,9 @@
     effectLevelValue.value = '100';
     inputHashtag.clear();
     inputDescription.clear();
-    inputScale.value = '100%';
+    window.preview.preview.clear();
     inputEffect.checked = true;
+    window.preview.uploadFile.value = '';
   };
 
   var onMouseDownPin = function (a) {
