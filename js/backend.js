@@ -5,24 +5,26 @@
   var URL_POST = 'https://js.dump.academy/kekstagram';
   var TIMEOUT = 10000;
   var STATUS_LOAD = 200;
-  var MESSEGE_STATUS = 'Статус ответа: ';
-  var MESSEGE_ERROR = 'Произошла ошибка соединения';
-  var MESSEGE_TIMEOUT = 'Запрос не успел выполниться за ';
-  var MESSEGE_MS = 'мс';
+  var MESSEGE = {
+    STATUS: 'Статус ответа: ',
+    ERROR: 'Произошла ошибка соединения',
+    TIMEOUT: 'Запрос не успел выполниться за ',
+    MS: 'мс'
+  };
 
   var loadEenets = function (xhr, onLoad, onError) {
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS_LOAD) {
         onLoad(xhr.response);
       } else {
-        onError(MESSEGE_STATUS + xhr.status + ' ' + xhr.statusText);
+        onError(MESSEGE.STATUS + xhr.status + ' ' + xhr.statusText);
       }
     });
     xhr.addEventListener('error', function () {
-      onError(MESSEGE_ERROR);
+      onError(MESSEGE.ERROR);
     });
     xhr.addEventListener('timeout', function () {
-      onError(MESSEGE_TIMEOUT + xhr.timeout + MESSEGE_MS);
+      onError(MESSEGE.TIMEOUT + xhr.timeout + MESSEGE.MS);
     });
 
     xhr.timeout = TIMEOUT;

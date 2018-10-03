@@ -54,6 +54,7 @@
   };
 
   var addEvents = function () {
+    imgFilters.classList.remove('img-filters--inactive');
     buttonPopular.addEvent();
     buttonNew.addEvent();
     buttonDiscussed.addEvent();

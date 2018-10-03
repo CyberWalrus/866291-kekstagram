@@ -29,14 +29,15 @@
     window.form.removeEvents();
     buttonSubmit.removeEvent();
     buttonBigger.removeEvent();
+    window.form.updateValues();
     uploadFile.addEventListener('change', onUploadFileChange);
   };
 
   var onSubmitClick = function () {
     event.preventDefault();
     if (window.form.checkValue()) {
-      onCloseUploadFileClick();
       window.uploadPicture.onButtonClick();
+      onCloseUploadFileClick();
     }
   };
 

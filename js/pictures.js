@@ -2,11 +2,8 @@
 
 (function () {
 
-  var photosArray = [];
-
   var pictureDIV = document.querySelector('.pictures');
   var templatePicture = document.querySelector('#picture').content.querySelector('a');
-  var imgFilters = document.querySelector('.img-filters');
 
   var clearPhotoDOM = function () {
     var nodeLength = pictureDIV.childNodes.length - 1;
@@ -40,15 +37,14 @@
 
   var onLoad = function (photosArr) {
     window.pictures.array = photosArr.slice();
-    imgFilters.classList.remove('img-filters--inactive');
-    window.filter.addEvents();
     createPhotoDOM(photosArr);
+    window.filter.addEvents();
   };
 
   window.backend.load(onLoad, onError);
 
   window.pictures = {
-    array: photosArray,
+    array: [],
     create: createPhotoDOM,
     clear: clearPhotoDOM
   };
