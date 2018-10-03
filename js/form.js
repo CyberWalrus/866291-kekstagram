@@ -191,10 +191,7 @@
   };
 
   var checkValue = function () {
-    if (checkHashtag(inputHashtag.element) && checkDescription(inputDescription.element)) {
-      return true;
-    }
-    return false;
+    return checkHashtag(inputHashtag.element) && checkDescription(inputDescription.element) ? true : false;
   };
 
   var removeEvents = function () {
