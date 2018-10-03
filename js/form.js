@@ -117,31 +117,66 @@
     }
   };
 
-  var onInputHashtagsInput = function (evt) {
+  var onInputHashtags = function (evt) {
     var target = evt.target;
-    var hashtags = target.value.toLowerCase();
-    var hashtagsArr = hashtags.split(' ');
-    if (hashtagsArr.length <= 5) {
-      target.setCustomValidity('');
-      hashtagsArr.forEach(function (item, index) {
-        if (item[0] !== '#') {
-          target.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
-        } else if (item.length <= 1) {
-          target.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
-        } else if (item.length > 20) {
-          target.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
-        } else if (hashtagsArr.some(function (itemAlt, indexAlt) {
-          return item === itemAlt && index !== indexAlt;
-        })) {
-          target.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
-        } else {
-          target.setCustomValidity('');
-        }
-      });
-    } else {
-      target.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
-    }
+    checkHashtag(target);
+  };
 
+  var checkHashtag = function (target) {
+    var hashtags = target.value.toLowerCase();
+    if (hashtags.length !== 0) {
+      var hashtagsArr = hashtags.split(' ');
+      if (hashtagsArr.length <= 5) {
+        target.setCustomValidity('');
+        hashtagsArr.forEach(function (item, index) {
+          if (item[0] !== '#') {
+            target.setCustomValidity('Хэш-тег начинается с символа # (решётка)');
+          } else if (item.length <= 1) {
+            target.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
+          } else if (item.length > 20) {
+            target.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая решётку');
+          } else if (hashtagsArr.some(function (itemAlt, indexAlt) {
+            return item === itemAlt && index !== indexAlt;
+          })) {
+            target.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
+          } else {
+            target.setCustomValidity('');
+          }
+        });
+      } else {
+        target.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+      }
+    } else {
+      target.setCustomValidity('');
+    }
+    if (target.validationMessage !== '') {
+      target.reportValidity();
+      return false;
+    }
+    return true;
+  };
+
+  var onInputDescription = function (evt) {
+    var target = evt.target;
+    checkDescription(target);
+  };
+
+  var checkDescription = function (target) {
+    var comment = target.value.toLowerCase();
+    if (comment.length > 140) {
+      target.setCustomValidity('Максимальная длина коментария 140 символов');
+      target.reportValidity();
+      return false;
+    }
+    target.setCustomValidity('');
+    return true;
+  };
+
+  var checkValue = function () {
+    if (checkHashtag(inputHashtag.element) && checkDescription(inputDescription.element)) {
+      return true;
+    }
+    return false;
   };
 
   var removeEvents = function () {
@@ -160,12 +195,13 @@
     inputDescription.addEvent();
   };
 
-  var inputHashtag = new window.model.TextInput(imgUploadOverlay.querySelector('input[name=hashtags]'), window.preview.onCloseUploadFileKeydown, onInputHashtagsInput);
-  var inputDescription = new window.model.TextInput(imgUploadOverlay.querySelector('textarea[name=description]'), window.preview.onCloseUploadFileKeydown);
+  var inputHashtag = new window.model.TextInput(imgUploadOverlay.querySelector('input[name=hashtags]'), window.preview.onCloseUploadFileKeydown, onInputHashtags);
+  var inputDescription = new window.model.TextInput(imgUploadOverlay.querySelector('textarea[name=description]'), window.preview.onCloseUploadFileKeydown, onInputDescription);
 
   window.form = {
     removeEvents: removeEvents,
     addEvents: addEvents,
-    updateValues: updateValues
+    updateValues: updateValues,
+    checkValue: checkValue
   };
 })();

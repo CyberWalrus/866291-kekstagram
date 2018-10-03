@@ -8,9 +8,11 @@
   var imgFilters = imgUploadOverlay.querySelectorAll('.effects__preview');
 
   var onBiggerClick = function () {
+    event.preventDefault();
     preview.incrScale();
   };
   var onSmallerClick = function () {
+    event.preventDefault();
     preview.discScale();
   };
 
@@ -32,8 +34,10 @@
 
   var onSubmitClick = function () {
     event.preventDefault();
-    onCloseUploadFileClick();
-    window.uploadPicture.onButtonClick();
+    if (window.form.checkValue()) {
+      onCloseUploadFileClick();
+      window.uploadPicture.onButtonClick();
+    }
   };
 
   var addPhotoPreview = function () {
@@ -61,8 +65,7 @@
     }
   };
 
-  var onUploadFileChange = function (event) {
-    event.preventDefault();
+  var onUploadFileChange = function () {
     addPhotoPreview();
     uploadFile.blur();
     imgUploadOverlay.classList.remove('hidden');
