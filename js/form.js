@@ -143,7 +143,7 @@
   var checkHashtag = function (target) {
     var hashtags = target.value.toLowerCase();
     if (hashtags.length !== 0) {
-      var hashtagsArr = hashtags.split(' ');
+      var hashtagsArr = hashtags.split(' ').replace(/\s+/g, '');
       if (hashtagsArr.length <= HASHTAG_MAX) {
         target.setCustomValidity(MESSEGE.DEFAULT);
         hashtagsArr.forEach(function (item, index) {
@@ -162,7 +162,7 @@
           }
         });
       } else {
-        target.setCustomValidity();
+        target.setCustomValidity(MESSEGE.DEFAULT);
       }
     } else {
       target.setCustomValidity(MESSEGE.DEFAULT);

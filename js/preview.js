@@ -7,13 +7,20 @@
   var imgUploadOverlay = document.querySelector('.img-upload__overlay');
   var imgFilters = imgUploadOverlay.querySelectorAll('.effects__preview');
 
-  var onBiggerClick = function () {
+  var onBiggerClick = function (event) {
     event.preventDefault();
     preview.incrScale();
   };
-  var onSmallerClick = function () {
+  var onBiggerKeydown = function (event) {
+    window.data.isEnterEvent(event, onBiggerClick);
+  };
+
+  var onSmallerClick = function (event) {
     event.preventDefault();
     preview.discScale();
+  };
+  var onSmallerKeydown = function (event) {
+    window.data.isEnterEvent(event, onSmallerClick);
   };
 
   var onCloseUploadFileKeydown = function (evt) {
@@ -71,19 +78,23 @@
     uploadFile.blur();
     imgUploadOverlay.classList.remove('hidden');
     document.addEventListener('keydown', onCloseUploadFileKeydown);
-    buttonCancel.addEvent();
-    buttonSmaller.addEvent();
+    buttonBigger.addEventListener('click', onPopularClick);
+    buttonBigger.addEventListener('keydown', onPopularKeydown);
+    buttonSmaller.addEventListener('click', onNewClick);
+    buttonSmaller.addEventListener('keydown', onNewKeydown);
+    buttonCancel.addEventListener('click', onDiscussedClick);
+    buttonCancel.addEventListener('keydown', onDiscussedKeydown);
+    buttonSubmit.addEventListener('click', onDiscussedClick);
+    buttonSubmit.addEventListener('keydown', onDiscussedKeydown);
     window.form.addEvents();
-    buttonSubmit.addEvent();
-    buttonBigger.addEvent();
     uploadFile.removeEventListener('change', onUploadFileChange);
   };
 
   var preview = new window.model.ImgPreview(imgUploadOverlay.querySelector('.img-upload__preview'), imgUploadOverlay.querySelector('input[name=scale]'), 25, 100, 25);
-  var buttonBigger = new window.model.Button(document.querySelector('.scale__control--bigger'), onBiggerClick);
-  var buttonSmaller = new window.model.Button(document.querySelector('.scale__control--smaller'), onSmallerClick);
-  var buttonCancel = new window.model.Button(document.querySelector('.img-upload__cancel'), onCloseUploadFileClick);
-  var buttonSubmit = new window.model.Button(document.querySelector('#upload-submit'), onSubmitClick);
+  var buttonBigger = document.querySelector('.scale__control--bigger');
+  var buttonSmaller = document.querySelector('.scale__control--smaller');
+  var buttonCancel = document.querySelector('.img-upload__cancel');
+  var buttonSubmit = document.querySelector('#upload-submit');
 
   uploadFile.addEventListener('change', onUploadFileChange);
 

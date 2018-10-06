@@ -2,13 +2,17 @@
 
 (function () {
   var NEW_PICTURE = 10;
+
   var imgFilters = document.querySelector('.img-filters');
+  var buttonPopular = imgFilters.querySelector('#filter-popular');
+  var buttonNew = imgFilters.querySelector('#filter-new');
+  var buttonDiscussed = imgFilters.querySelector('#filter-discussed');
 
   var updateClassFilters = function (evt) {
     evt.preventDefault();
-    buttonPopular.element.classList.remove('img-filters__button--active');
-    buttonNew.element.classList.remove('img-filters__button--active');
-    buttonDiscussed.element.classList.remove('img-filters__button--active');
+    buttonPopular.classList.remove('img-filters__button--active');
+    buttonNew.classList.remove('img-filters__button--active');
+    buttonDiscussed.classList.remove('img-filters__button--active');
     evt.target.classList.add('img-filters__button--active');
   };
 
@@ -42,27 +46,35 @@
     updateClassFilters(evt);
     updatePopular();
   };
+  var onPopularKeydown = function (evt) {
+    window.data.isEnterEvent(evt, onPopularClick);
+  };
 
   var onNewClick = function (evt) {
     updateClassFilters(evt);
     updateNew();
+  };
+  var onNewKeydown = function (evt) {
+    window.data.isEnterEvent(evt, onNewClick);
   };
 
   var onDiscussedClick = function (evt) {
     updateClassFilters(evt);
     updateDiscussed();
   };
+  var onDiscussedKeydown = function (evt) {
+    window.data.isEnterEvent(evt, onDiscussedClick);
+  };
 
   var addEvents = function () {
     imgFilters.classList.remove('img-filters--inactive');
-    buttonPopular.addEvent();
-    buttonNew.addEvent();
-    buttonDiscussed.addEvent();
+    buttonPopular.addEventListener('click', onPopularClick);
+    buttonPopular.addEventListener('keydown', onPopularKeydown);
+    buttonNew.addEventListener('click', onNewClick);
+    buttonNew.addEventListener('keydown', onNewKeydown);
+    buttonDiscussed.addEventListener('click', onDiscussedClick);
+    buttonDiscussed.addEventListener('keydown', onDiscussedKeydown);
   };
-
-  var buttonPopular = new window.model.Button(imgFilters.querySelector('#filter-popular'), onPopularClick);
-  var buttonNew = new window.model.Button(imgFilters.querySelector('#filter-new'), onNewClick);
-  var buttonDiscussed = new window.model.Button(imgFilters.querySelector('#filter-discussed'), onDiscussedClick);
 
   window.filter = {
     addEvents: addEvents
