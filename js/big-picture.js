@@ -81,8 +81,8 @@
     var commentsCountNow = newCommentArrArr[0].length;
     bigPictureSocial.textContent = addTextContetn(commentsCountNow, newCommentArr);
 
-    window.bigPicture.onCommentsLoaderClick = function (evt) {
-      evt.preventDefault();
+    window.bigPicture.onCommentsLoaderClick = function (event) {
+      event.preventDefault();
       if (indexArrArr < newCommentArrArr.length) {
         commentsCountNow += newCommentArrArr[indexArrArr].length;
         bigPictureSocial.textContent = addTextContetn(commentsCountNow, newCommentArr);
@@ -110,8 +110,8 @@
     bigPictureCancel.addEventListener('click', onCloseBigPictureClick);
   };
 
-  var onCloseBigPictureKeydown = function (evt) {
-    window.data.isEscEvent(evt, onCloseBigPictureClick);
+  var onCloseBigPictureKeydown = function (event) {
+    window.data.isEscEvent(event, onCloseBigPictureClick);
   };
 
   var onCloseBigPictureClick = function () {

@@ -63,6 +63,8 @@
   var effectLevelLine = imgUploadOverlay.querySelector('.effect-level__line');
   var effectLevelValue = imgUploadOverlay.querySelector('input[name=effect-level]');
   var inputEffect = imgUploadOverlay.querySelector('#effect-none');
+  var inputHashtag = imgUploadOverlay.querySelector('input[name=hashtags]');
+  var inputDescription = imgUploadOverlay.querySelector('textarea[name=description]');
   var maxEffectLevelPin = effectLevelLine.clientWidth;
 
   var cangeEfectValue = function (min, max, num) {
@@ -71,9 +73,9 @@
 
   var updateValues = function () {
     effectLevelValue.value = EFFEC_VALUE;
-    inputHashtag.clear();
-    inputDescription.clear();
-    window.preview.preview.clear();
+    inputHashtag.value = '';
+    inputDescription.value = '';
+    window.preview.clear();
     inputEffect.checked = true;
     window.preview.uploadFile.value = '';
   };
@@ -103,18 +105,18 @@
   var updateStyleFilter = function () {
     if (currentFilter !== DEFAULT_FILTER) {
       var filterValue = cangeEfectValue(EFFECT_OBJ[currentFilter].min, EFFECT_OBJ[currentFilter].max, parseInt(effectLevelPin.style.left, 10));
-      window.preview.preview.setFilter(EFFECT_OBJ[currentFilter].efect + '(' + filterValue + EFFECT_OBJ[currentFilter].type + ')');
+      window.preview.preview.style.filter = EFFECT_OBJ[currentFilter].efect + '(' + filterValue + EFFECT_OBJ[currentFilter].type + ')';
     } else {
-      window.preview.preview.setFilter('');
+      window.preview.preview.style.filter = '';
     }
   };
 
   var updateSliderVision = function (effect) {
     effectLevelValue.value = EFFEC_VALUE;
-    window.preview.preview.removeClass('effects__preview--' + currentFilter);
-    window.preview.preview.addClass('effects__preview--' + effect);
+    window.preview.preview.classList.remove('effects__preview--' + currentFilter);
+    window.preview.preview.classList.add('effects__preview--' + effect);
     currentFilter = effect;
-    window.preview.preview.setFilter('');
+    window.preview.preview.style.filter = '';
     if (currentFilter !== DEFAULT_FILTER) {
       imgUploadEffectLevel.classList.remove('hidden');
       effectLevelPin.style.left = MAX_LEFT + MESSEGE.PERCENT;
@@ -135,19 +137,21 @@
     }
   };
 
-  var onInputHashtags = function (evt) {
-    var target = evt.target;
+  var onInputHashtags = function (event) {
+    var target = event.target;
     checkHashtag(target);
   };
 
   var checkHashtag = function (target) {
     var hashtags = target.value.toLowerCase();
     if (hashtags.length !== 0) {
-      var hashtagsArr = hashtags.split(' ').replace(/\s+/g, '');
+      var hashtagsArr = hashtags.replace(/ {1,}/g, ' ').split(' ');
       if (hashtagsArr.length <= HASHTAG_MAX) {
         target.setCustomValidity(MESSEGE.DEFAULT);
-        hashtagsArr.forEach(function (item, index) {
-          if (item[0] !== HASHTAG_BEGIN) {
+        hashtagsArr.some(function (item, index) {
+          if (item.length === 0) {
+            target.setCustomValidity(MESSEGE.DEFAULT);
+          } else if (item[0] !== HASHTAG_BEGIN) {
             target.setCustomValidity(MESSEGE.BEGIN);
           } else if (item.length <= HASHTAG_MIN) {
             target.setCustomValidity(MESSEGE.MIN);
@@ -160,22 +164,23 @@
           } else {
             target.setCustomValidity(MESSEGE.DEFAULT);
           }
+          return (target.validationMessage !== MESSEGE.DEFAULT);
         });
       } else {
-        target.setCustomValidity(MESSEGE.DEFAULT);
+        target.setCustomValidity(MESSEGE.MAX);
       }
     } else {
       target.setCustomValidity(MESSEGE.DEFAULT);
     }
     if (target.validationMessage !== MESSEGE.DEFAULT) {
-      target.reportValidity(MESSEGE.MAX);
+      target.reportValidity();
       return false;
     }
     return true;
   };
 
-  var onInputDescription = function (evt) {
-    var target = evt.target;
+  var onInputDescription = function (event) {
+    var target = event.target;
     checkDescription(target);
   };
 
@@ -191,26 +196,39 @@
   };
 
   var checkValue = function () {
-    return checkHashtag(inputHashtag.element) && checkDescription(inputDescription.element) ? true : false;
+    return checkHashtag(inputHashtag) && checkDescription(inputDescription) ? true : false;
+  };
+
+  var onFocus = function () {
+    document.removeEventListener('keydown', window.preview.onCloseUploadFileKeydown);
+  };
+  var onBlur = function () {
+    document.addEventListener('keydown', window.preview.onCloseUploadFileKeydown);
   };
 
   var removeEvents = function () {
     uploadForm.removeEventListener('change', onUploadFormChange);
     effectLevelPin.removeEventListener('mousedown', onMouseDownPin);
-    inputHashtag.removeEvent();
-    inputDescription.removeEvent();
+    inputHashtag.removeEventListener('input', onInputHashtags);
+    inputHashtag.removeEventListener('focus', onFocus);
+    inputHashtag.removeEventListener('blur', onBlur);
+    inputDescription.removeEventListener('input', onInputDescription);
+    inputDescription.removeEventListener('focus', onFocus);
+    inputDescription.removeEventListener('blur', onBlur);
   };
 
   var addEvents = function () {
     updateSliderVision('none');
     uploadForm.addEventListener('change', onUploadFormChange);
     effectLevelPin.addEventListener('mousedown', onMouseDownPin);
-    inputHashtag.addEvent();
-    inputDescription.addEvent();
+    inputHashtag.addEventListener('input', onInputHashtags);
+    inputHashtag.addEventListener('focus', onFocus);
+    inputHashtag.addEventListener('blur', onBlur);
+    inputDescription.addEventListener('input', onInputDescription);
+    inputDescription.addEventListener('focus', onFocus);
+    inputDescription.addEventListener('blur', onBlur);
   };
 
-  var inputHashtag = new window.model.TextInput(imgUploadOverlay.querySelector('input[name=hashtags]'), window.preview.onCloseUploadFileKeydown, onInputHashtags);
-  var inputDescription = new window.model.TextInput(imgUploadOverlay.querySelector('textarea[name=description]'), window.preview.onCloseUploadFileKeydown, onInputDescription);
   updateValues();
 
   window.form = {

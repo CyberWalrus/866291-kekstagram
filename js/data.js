@@ -26,13 +26,13 @@
 
   window.data = {
     ESC_KEYCODE: ESC_KEYCODE,
-    isEscEvent: function (evt, action) {
-      if (evt.keyCode === ESC_KEYCODE) {
+    isEscEvent: function (event, action) {
+      if (event.keyCode === ESC_KEYCODE) {
         action();
       }
     },
-    isEnterEvent: function (evt, action) {
-      if (evt.keyCode === ENTER_KEYCODE) {
+    isEnterEvent: function (event, action) {
+      if (event.keyCode === ENTER_KEYCODE) {
         action();
       }
     },

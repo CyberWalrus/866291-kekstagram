@@ -36,8 +36,6 @@
 
     loadEenets(xhr, onLoad, onError);
 
-    xhr.timeout = TIMEOUT;
-
     xhr.open('GET', URL);
     xhr.send();
   };
@@ -48,7 +46,6 @@
     loadEenets(xhr, onLoad, onError);
 
     xhr.open('POST', URL_POST);
-
     xhr.send(data);
   };
 

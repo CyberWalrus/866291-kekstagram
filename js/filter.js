@@ -8,12 +8,12 @@
   var buttonNew = imgFilters.querySelector('#filter-new');
   var buttonDiscussed = imgFilters.querySelector('#filter-discussed');
 
-  var updateClassFilters = function (evt) {
-    evt.preventDefault();
+  var updateClassFilters = function (event) {
+    event.preventDefault();
     buttonPopular.classList.remove('img-filters__button--active');
     buttonNew.classList.remove('img-filters__button--active');
     buttonDiscussed.classList.remove('img-filters__button--active');
-    evt.target.classList.add('img-filters__button--active');
+    event.target.classList.add('img-filters__button--active');
   };
 
   var updatePopular = window.data.debounce(function () {
@@ -42,28 +42,28 @@
     window.pictures.create(photoArray);
   });
 
-  var onPopularClick = function (evt) {
-    updateClassFilters(evt);
+  var onPopularClick = function (event) {
+    updateClassFilters(event);
     updatePopular();
   };
-  var onPopularKeydown = function (evt) {
-    window.data.isEnterEvent(evt, onPopularClick);
+  var onPopularKeydown = function (event) {
+    window.data.isEnterEvent(event, onPopularClick);
   };
 
-  var onNewClick = function (evt) {
-    updateClassFilters(evt);
+  var onNewClick = function (event) {
+    updateClassFilters(event);
     updateNew();
   };
-  var onNewKeydown = function (evt) {
-    window.data.isEnterEvent(evt, onNewClick);
+  var onNewKeydown = function (event) {
+    window.data.isEnterEvent(event, onNewClick);
   };
 
-  var onDiscussedClick = function (evt) {
-    updateClassFilters(evt);
+  var onDiscussedClick = function (event) {
+    updateClassFilters(event);
     updateDiscussed();
   };
-  var onDiscussedKeydown = function (evt) {
-    window.data.isEnterEvent(evt, onDiscussedClick);
+  var onDiscussedKeydown = function (event) {
+    window.data.isEnterEvent(event, onDiscussedClick);
   };
 
   var addEvents = function () {
