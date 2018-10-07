@@ -13,6 +13,7 @@
   var addElemnt = function (template, message, addFunction) {
     var element = template.cloneNode(true);
     var elementButton = element.querySelector('button');
+
     if (message !== undefined) {
       element.querySelector('h2').textContent = message;
     }
@@ -34,16 +35,16 @@
       window.form.updateValues();
     };
 
-    var onEnterElement = function (evt) {
-      window.data.isEnterEvent(evt, onCloseElement);
+    var onEnterElement = function (event) {
+      window.data.isEnterEvent(event, onCloseElement);
     };
 
-    var onEscElement = function (evt) {
-      window.data.isEscEvent(evt, onCloseElement);
+    var onEscElement = function (event) {
+      window.data.isEscEvent(event, onCloseElement);
     };
 
-    var onClickDocument = function (evt) {
-      if (element === evt.target) {
+    var onClickDocument = function (event) {
+      if (element === event.target) {
         onCloseElement();
       }
     };

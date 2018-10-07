@@ -1,8 +1,17 @@
 'use strict';
 
 (function () {
-  var newCommentImgWidth = 35;
-  var newCommentImgHeight = 35;
+  var IMG_WIDTH = 35;
+  var IMG_HEIGHT = 35;
+  var COMMENT_NUMBER = 5;
+  var MESSEGE = {
+    SRC: 'img/avatar-',
+    SVG: '.svg',
+    ALT: 'Аватар комментатора фотографии',
+    MS: 'мс',
+    OF: ' из ',
+    COMMENT: ' комментариев'
+  };
 
   var bigPicture = document.querySelector('.big-picture');
   var bigPictureSocial = bigPicture.querySelector('.social__comment-count');
@@ -14,16 +23,20 @@
   var bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
   var commentContainer = bigPicture.querySelector('.social__comments');
 
+  var addTextContetn = function (commentsCountNow, newCommentArr) {
+    return commentsCountNow + MESSEGE.OF + newCommentArr.length + MESSEGE.COMMENT;
+  };
+
   var createCommentDOM = function (textContent) {
     var newComment = document.createElement('li');
     var newCommentImg = document.createElement('img');
     var newCommentP = document.createElement('p');
     newComment.classList.add('social__comment');
     newCommentImg.classList.add('social__picture');
-    newCommentImg.src = 'img/avatar-' + window.data.generateRandomNumber(6, 1) + '.svg';
-    newCommentImg.alt = 'Аватар комментатора фотографии';
-    newCommentImg.width = newCommentImgWidth;
-    newCommentImg.height = newCommentImgHeight;
+    newCommentImg.src = MESSEGE.SRC + window.data.generateRandomNumber(6, 1) + MESSEGE.SVG;
+    newCommentImg.alt = MESSEGE.ALT;
+    newCommentImg.width = IMG_WIDTH;
+    newCommentImg.height = IMG_HEIGHT;
     newCommentP.classList.add('social__text');
     newCommentP.textContent = textContent;
     newComment.appendChild(newCommentImg);
@@ -41,7 +54,7 @@
     var newCommentArr = [];
     var newCommentArrArr = [];
     var index = 0;
-    var indexArr = 5;
+    var indexArr = COMMENT_NUMBER;
     var minIndex = 0;
     var indexArrArr = 1;
 
@@ -52,13 +65,11 @@
     photo['comments'].forEach(function (item) {
       var newComment = createCommentDOM(item);
       newCommentArr.push(newComment);
-      if (photo['comments'].length < indexArr) {
-        indexArr = photo['comments'].length;
-      }
+      indexArr = photo['comments'].length < indexArr ? photo['comments'].length : indexArr;
       if (index === indexArr - 1) {
         newCommentArrArr.push(newCommentArr.slice(minIndex, indexArr));
         minIndex = indexArr;
-        indexArr += 5;
+        indexArr += COMMENT_NUMBER;
       }
       index++;
     });
@@ -68,13 +79,13 @@
     });
 
     var commentsCountNow = newCommentArrArr[0].length;
-    bigPictureSocial.textContent = commentsCountNow + ' из ' + newCommentArr.length + ' комментариев';
+    bigPictureSocial.textContent = addTextContetn(commentsCountNow, newCommentArr);
 
-    window.bigPicture.onCommentsLoaderClick = function (evt) {
-      evt.preventDefault();
+    window.bigPicture.onCommentsLoaderClick = function (event) {
+      event.preventDefault();
       if (indexArrArr < newCommentArrArr.length) {
         commentsCountNow += newCommentArrArr[indexArrArr].length;
-        bigPictureSocial.textContent = commentsCountNow + ' из ' + newCommentArr.length + ' комментариев';
+        bigPictureSocial.textContent = addTextContetn(commentsCountNow, newCommentArr);
         newCommentArrArr[indexArrArr].forEach(function (item) {
           commentContainer.appendChild(item);
         });
@@ -99,8 +110,8 @@
     bigPictureCancel.addEventListener('click', onCloseBigPictureClick);
   };
 
-  var onCloseBigPictureKeydown = function (evt) {
-    window.data.isEscEvent(evt, onCloseBigPictureClick);
+  var onCloseBigPictureKeydown = function (event) {
+    window.data.isEscEvent(event, onCloseBigPictureClick);
   };
 
   var onCloseBigPictureClick = function () {
